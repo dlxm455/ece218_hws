@@ -1,2 +1,2 @@
-# ece218_hws
-C++ 218 homeworks
+# ece218_labs
+C++ 218 labs
