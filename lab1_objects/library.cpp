@@ -3,7 +3,7 @@
 using namespace std;
 
 Library::Library() {
-	setName("None");
+	setName("NONE");
 	Person p;
 	setOwner(p);
 }
@@ -32,10 +32,11 @@ int Library::setBooks(string fname, int size) {
 void Library::print(ostream &out) {
 	out << "==Library================\n";
 	out << "Name : " << name << endl;
-	out << "Owner: " << name << endl;
+	out << "Owner: " << owner.getName() << endl;
 	out << "Books: " << endl;
 	for (int i = 0; i < 46; i++) {
 		out << books[i];
 	}
 	out << "=========================\n";
 }
+

@@ -4,10 +4,13 @@
 #include "book.h"
 #include "person.h"
 #include <fstream>
+
+#define bookNum 46
+
 class Library {
 private:
 	string name;
-	Book books[46];
+	Book books[bookNum];
 	Person owner;
 public:
 	Library();

@@ -1,7 +1,7 @@
 #include "book.h"
 
 Book::Book() {
-	Person p;
+	Person p; // call Person's default constructor and set p.name as NONE
 	init("NONE", p, "NONE", -1);
 }
 
