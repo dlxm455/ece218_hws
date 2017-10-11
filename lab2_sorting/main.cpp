@@ -1,6 +1,8 @@
 #include "date.h"
 #include "person.h"
 #include <fstream>
+#include <iostream>
+#include <string>
 
 int readData(string fname, Person p[], const int size) {	
 	ifstream fin(fname.c_str());
@@ -146,50 +148,50 @@ int main(int argc, char * argv[]) {
 		test_arr[i].print(cout);
 	}
 	*/
-	time_t start_select = time(0);
+	clock_t start_select = clock();
 	selectionSort(test_arr, test_arr_size);
-	time_t end_select = time(0);
-	double time_select = difftime(end_select, start_select) * 1000.0;
-	/*
-	cout << "After Selection Sort" << endl;
-	for (int i = 0; i < test_arr_size; i++) {
+	clock_t end_select = clock();
+	double time_select = (double)(end_select- start_select);
+	
+	cout << "====== After Selection Sort ======" << endl;
+	for (int i = 0; i < 10; i++) {
 		cout << "==Person No." << i+1 << ":========" << endl;
 		//test_arr[i].print(cout);
 		cout << test_arr[i].getLastName() << endl;
 	}
-	*/
+
 	for (int i = 0; i < test_arr_size; i++) {
 		test_arr[i] = person_array[i];
 	}
 	
-	time_t start_insert = time(0);
+	clock_t start_insert = clock();
 	insertionSort(test_arr, test_arr_size);
-	time_t end_insert = time(0);
-	double time_insert = difftime(end_insert, start_insert) * 1000.0;
-	/*
-	cout << "After Insertion Sort" << endl;
-	for (int i = 0; i < test_arr_size; i++) {
+	clock_t end_insert = clock();
+	double time_insert = (double) (end_insert -  start_insert);
+	
+	cout << "====== After Insertion Sort ======" << endl;
+	for (int i = 0; i < 10; i++) {
 		cout << "==Person No." << i+1 << ":========" << endl;
 		//test_arr[i].print(cout);
 		cout << test_arr[i].getLastName() << endl;
 	}
-	*/
+	
 	for (int i = 0; i < test_arr_size; i++) {
 		test_arr[i] = person_array[i];
 	}
-	time_t start_bubble = time(0);
+	clock_t start_bubble = clock();
 	bubbleSort(test_arr, test_arr_size);
-	time_t end_bubble = time(0);
-	double time_bubble = difftime(end_bubble, start_bubble) * 1000.0;
-	/*	
-	cout << "After Bubble Sort" << endl;
-	for (int i = 0; i < test_arr_size; i++) {
+	clock_t end_bubble = clock();
+	double time_bubble = (double)(end_bubble - start_bubble);
+	
+	cout << "====== After Bubble Sort ======" << endl;
+	for (int i = 0; i < 10; i++) {
 		cout << "==Person No." << i+1 << ":========" << endl;
 		//test_arr[i].print(cout);
 		cout << test_arr[i].getLastName() << endl;
 
 	}
-	*/
+	
 	cout << "SelectionSort time: " << time_select << endl;
 	cout << "InsertionSort time: " << time_insert << endl;
 	cout << "BubbleSort time: " << time_bubble << endl;
