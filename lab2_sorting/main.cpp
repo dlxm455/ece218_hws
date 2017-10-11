@@ -25,20 +25,19 @@ void swap(Person &p1, Person &p2) {
 	p2 = temp; 
 }
 
-int binarySearch(Person p_arr[], int first, int last, Person &targetP) {
-	int pos, mid; 
-	while (first < last) {
+int binarySearch(Person p_arr[], int first, int last, int targetInd) {
+	int pos = targetInd;
+	int mid;
+	Person targetP = p_arr[targetInd];
+	while (first <= last) {
 		if (targetP.compare(p_arr[first]) < 0) return first;
-		else if (targetP.compare(p_arr[last]) > 0) return last+1;
+		else if (targetP.compare(p_arr[last]) > 0 || targetP.compare(p_arr[last]) == 0) return last+1;
 
 		mid = (first + last) / 2;
 		if (targetP.compare(p_arr[mid]) < 0) last = mid - 1;
 		else first = mid + 1; 
 	}
 
-	if (first == last) 
-		pos = (targetP.compare(p_arr[first]) < 0) ? first : first+1;
-	
 	return pos;
 }		
 		
@@ -57,7 +56,7 @@ void selectionSort(Person p[], const int size) {
 
 void insertionSort(Person p[], const int size) {
 	for (int i = 1; i < size; i++) {
-		int pos = binarySearch(p, 0, i-1, p[i]);
+		int pos = binarySearch(p, 0, i-1, i);
 		if (pos != i) { 
 			Person temp = p[i];
 			for (int j = i; j > pos; j--) {
