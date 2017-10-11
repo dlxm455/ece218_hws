@@ -43,17 +43,15 @@ int binarySearch(Person p_arr[], int first, int last, Person &targetP) {
 }		
 		
 void selectionSort(Person p[], const int size) {
-	Person p_min;
-	int pos;
-	for (int i = 0; i < size; i++) {
-		p_min = p[i]; pos = i;
-		for (int j = i+1; j < size; j++) {
-			if (p_min.compare(p[j]) > 0) {
-				p_min = p[j];
-				pos = j;
+	int i, j, min_pos;
+	for (i = 0; i < size - 1; i++) {
+		min_pos = i;
+		for (j = i+1; j < size; j++) {
+			if (p[min_pos].compare(p[j]) > 0) {
+				min_pos = j;
 			}
 		}
-		if (p_min.compare(p[i]) != 0) swap(p[i], p[pos]);
+		if (i != min_pos) swap(p[i], p[min_pos]);
 	}	
 }
 
