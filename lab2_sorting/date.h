@@ -12,9 +12,9 @@ private:
 	int day;
 
 public:
-	void init(int);
-	string getFormattedString(); 
-	void print(ostream &); 
+	void init(int); // a setter with an int parameter formatted as YYYYMMDD
+	string getFormattedString(); // a getter returning YYYYMMDD string 
+	void print(ostream &); // print the date as YYYYMMDD 
 };
 
 #endif

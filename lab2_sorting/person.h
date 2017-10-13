@@ -13,10 +13,10 @@ private:
 	string firstName, lastName;
 	Date birthday;
 public:
-	Person();
-	Person(string, string, string, string);
+	Person(); // default constructor
+	Person(string, string, string, string); // alternative constructor
 	void print(ostream &);
-	int compare(Person &);
+	int compare(Person &); // compare by last name
 	
 	/*
 	void setSSN(int s) { ssn = s; }
@@ -24,14 +24,16 @@ public:
 	void setLastName(string lN) { lastName = lN; }
 	void setBirthday(Date b) { birthday = b; }
 	*/
-	
-	void init(int s, string fN, string lN, Date b) {
+
+	// a 'combined' setter	
+	void init(int s, string fN, string lN, Date b) { 
 		ssn = s;
 		firstName = fN;
 		lastName = lN;
 		birthday = b;
 	}
 	
+	// getters
 	int getSSN() { return ssn; }
 	string getFirstName() { return firstName; }
 	string getLastName() { return lastName; }
