@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 // Part 1.3: Fuction to read the data from a file to fill Person array  
 int readData(string fname, Person p[], const int size) {	
 	ifstream fin(fname.c_str());
