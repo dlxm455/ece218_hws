@@ -8,12 +8,12 @@ using namespace std;
 int readFile(Mstring &filename, Mstring *arr, int size) {
 	string line;
 	char * fn = filename.getString();
-	ifstream myfile (fn);
+	ifstream myfile (fn); // open file
 	int count = 0;
 	if (myfile.is_open()) {
-		while (getline(myfile,line) && count < size) {
+		while (getline(myfile,line) && count < size) { // get string from each line
 			arr[count].setString((char*)line.c_str(), line.size());
-			count++;
+			count++; // count number of lines read in
 		}
 	}
 	myfile.close();
@@ -29,7 +29,7 @@ void selectionSort(Mstring p[], const int size) {
 				min_pos = j;
 			}
 		}
-		if (i != min_pos) {
+		if (i != min_pos) { // swap, deep copy by overloading "="
 			Mstring temp;
 			temp = p[i];
 			p[i] = p[min_pos];
@@ -39,30 +39,26 @@ void selectionSort(Mstring p[], const int size) {
 }
 
 int main() {
-	/*
-	Mstring ms;
-	char my_s[] = "the cat and the rat";
-	ms.setString(my_s, 19);
-	ms.print(cout);
-	Mstring s;
-	char the[] = "the";
-	s.setString(the,3);
-	Mstring r;
-	char over[] = "over";
-	r.setString(over, 4);
-	bool find = ms.findAndReplace(s,r);
-	if (find) cout << "Find!" << endl;
-	else cout << "Not find!" << endl;
-	ms.print(cout);
-	*/
-	
+	/* 1. Create a dynamic Mstring array */
+
 	int arr_size = 100000;
 	Mstring * Mstring_arr = new Mstring[arr_size];
+
+
+
+
+	/* 2. Read file function */
+
 	Mstring filename;
 	char fn[] = "data1.txt";
 	filename.setString(fn, 9);
+
 	int num_line = readFile(filename, Mstring_arr, arr_size);
 	cout << " Read in number of lines: " << num_line << endl;
+
+
+
+	/* 3. Replace "the" with "over" */
 	
 	Mstring s, r;
 	s.setString((char*)("the"), 3);
@@ -76,6 +72,8 @@ int main() {
 
 	cout << " Find and replace number: " << findCount << endl;
 
+
+
 	/* 4. Sort the array of Mstring */
 
 	clock_t start_c = clock();
@@ -83,6 +81,8 @@ int main() {
 	clock_t end_c = clock();
 	double time_ms = (double) (end_c - start_c) / CLOCKS_PER_SEC * 1000.0;
 	cout << " Sorting time in ms: " << time_ms << endl;
+
+
 	
 	/* 5. Write the sorted array to a file */
 	
@@ -93,6 +93,8 @@ int main() {
 		}
 	}
 	fout.close();
+
+
 
 	/* 6. new array, append, sort */
 	int new_arr_size = 50000;

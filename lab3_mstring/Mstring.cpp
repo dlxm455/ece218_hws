@@ -9,12 +9,13 @@ Mstring :: Mstring() {
 Mstring :: ~Mstring() {
 	if (str) delete[] str;
 	str = NULL;
+	length = 0;
 }
 
 void Mstring :: setString(char * s, int len) {
 	if (str) delete[] str;
 	str = new char[len];
-	bcopy(s, str, len);
+	bcopy(s, str, len); // deep copy of given char arr 
 	length = len;
 }
 
@@ -22,14 +23,14 @@ void Mstring :: setString(Mstring &s) {
 	if (str) delete[] str;
 	int len = s.length;
 	str = new char[len];
-	bcopy(s.str, str, len);
+	bcopy(s.str, str, len); // deep copy from another Mstring str
 	length = len;
 }
 
 char* Mstring :: getString() {
 	int len = length;
 	char * new_str = new char[len];
-	bcopy(str, new_str, len);
+	bcopy(str, new_str, len); // deep copy of the internal str
 	return new_str;
 }
 
@@ -42,8 +43,8 @@ int Mstring :: append(char *s, int len) {
 	int new_len = length + len;
 	if (length != new_len) { //append string not empty
 		char * new_str = new char[new_len];
-		bcopy(str, new_str, length);
-		bcopy(s, new_str+length, len);
+		bcopy(str, new_str, length); // deep copy of internal str
+		bcopy(s, new_str+length, len); // deep copy of given char array
 		if (str) delete[] str;
 		str = new_str;
 		new_str = NULL;
@@ -56,8 +57,8 @@ int Mstring :: append(Mstring &s) {
 	int new_len = length + s.length;
 	if (length != new_len) { //append string not empty 
 		char * new_str = new char[new_len];
-		bcopy(str, new_str, length);
-		bcopy(s.str, new_str+length, s.length);
+		bcopy(str, new_str, length); // deep copy of internal str
+		bcopy(s.str, new_str+length, s.length); // deep copy from another Mstring str 
 		if (str) delete[] str;
 		str = new_str;
 		new_str = NULL;
@@ -66,7 +67,10 @@ int Mstring :: append(Mstring &s) {
 	return length;
 }
 
-bool Mstring::compareFromInd(int ind, Mstring &s) {
+
+
+// Facilitate find substring
+bool Mstring::compareStartInd(int ind, Mstring &s) {
 	for (int i = 0; i < s.length; i++) {
 		if (str[ind+i] != s.str[i]) return false;
 	}
@@ -128,12 +132,14 @@ bool Mstring :: findAndReplace(Mstring &s, Mstring &r) {
 bool Mstring :: findAndReplace(Mstring &s, Mstring &r) {
 	if (length < s.length) return false;	
 	for (int i = 0; i <= length - s.length; i++) {
-		if (compareFromInd(i,s)) { 
+		if (compareStartInd(i,s)) { 
 			int new_length = length - s.length + r.length;
 			char * new_str = new char[new_length];
-			bcopy(str, new_str, i);
-			bcopy(r.str, new_str + i, r.length);
+			bcopy(str, new_str, i); // deep copy of str from beginning to before substring
+			bcopy(r.str, new_str + i, r.length); // deep copy of replaced string
 			bcopy(str + i + s.length, new_str + i + r.length, length - i - s.length);
+			// deep copy of str from after substring to end.
+
 			if (str) delete[] str;
 			str = new_str;
 			new_str = NULL; // for safe
@@ -145,7 +151,7 @@ bool Mstring :: findAndReplace(Mstring &s, Mstring &r) {
 			
 }
 
-// if given character is upper case change it to lowercase
+// if given character is uppercase change it to lowercase
 char lowercase(char c) {
 	char ret = c;
 	if ( ret >= 'A' && ret <= 'Z')
