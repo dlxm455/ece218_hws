@@ -40,26 +40,30 @@ char Mstring :: charAt(int loc) {
 
 int Mstring :: append(char *s, int len) {
 	int new_len = length + len;
-	char * new_str = new char[new_len];
-	bcopy(str, new_str, length);
-	bcopy(s, new_str+length, len);
-	delete[] str;
-	str = new_str;
-	new_str = NULL;
-	length = new_len;
+	if (length != new_len) { //append string not empty
+		char * new_str = new char[new_len];
+		bcopy(str, new_str, length);
+		bcopy(s, new_str+length, len);
+		if (str) delete[] str;
+		str = new_str;
+		new_str = NULL;
+		length = new_len;
+	}
 	return length;
 }
 
 int Mstring :: append(Mstring &s) {
-		int new_len = length + s.length;
+	int new_len = length + s.length;
+	if (length != new_len) { //append string not empty 
 		char * new_str = new char[new_len];
 		bcopy(str, new_str, length);
 		bcopy(s.str, new_str+length, s.length);
-		delete[] str;
+		if (str) delete[] str;
 		str = new_str;
 		new_str = NULL;
 		length = new_len;
-		return length;
+	}
+	return length;
 }
 
 bool Mstring::compareFromInd(int ind, Mstring &s) {
@@ -130,7 +134,7 @@ bool Mstring :: findAndReplace(Mstring &s, Mstring &r) {
 			bcopy(str, new_str, i);
 			bcopy(r.str, new_str + i, r.length);
 			bcopy(str + i + s.length, new_str + i + r.length, length - i - s.length);
-			delete[] str;
+			if (str) delete[] str;
 			str = new_str;
 			new_str = NULL; // for safe
 			length = new_length;
@@ -150,6 +154,11 @@ char lowercase(char c) {
 }
 
 int Mstring :: compareToIgnoreCase(Mstring &s) {
+		// define empty string > non empty string
+		if (length == 0 && s.length != 0) return 1;
+		if (length == 0 && s.length == 0) return 0;
+		if (length != 0 && s.length == 0) return -1;
+
 		int l1, l2;
 		int min_len = (length < s.length) ? length : s.length;
 		for (int i = 0; i < min_len; i++) {
@@ -166,7 +175,7 @@ int Mstring :: compareToIgnoreCase(Mstring &s) {
 
 
 ostream &Mstring :: print(ostream &out) {
-	if (str == NULL) out << "string is empty\n";	
+	if (length == 0) out << "empty string " << endl;	
 	// out << "length: " << length << endl;
 	for (int i = 0; i < length; i++) {
 		out << str[i];

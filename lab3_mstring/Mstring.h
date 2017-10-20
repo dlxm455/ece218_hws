@@ -21,6 +21,10 @@ public:
 	bool findAndReplace(Mstring &s, Mstring &r);
 	int compareToIgnoreCase(Mstring &s);
 	ostream &print(ostream &out);
+	Mstring &operator=(Mstring &b) {
+		this->setString(b);
+		return *this;
+	}
 };
 	
 
