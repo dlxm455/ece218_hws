@@ -8,7 +8,7 @@ class Mstring {
 private:
 	char *str;
 	int length;
-	bool compareFromInd(int Ind, Mstring &s);
+	bool compareStartInd(int Ind, Mstring &s);
 public:
 	Mstring();
 	~Mstring();
