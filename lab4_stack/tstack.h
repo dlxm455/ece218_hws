@@ -27,7 +27,7 @@ public:
 	virtual ~Tstack();
 	ostream& print(ostream&);
 	void push(T data);
-	T pop();
+	int pop(T &);
 };
 
 
@@ -101,16 +101,16 @@ void Tstack<T> :: push(T data) {
 }
 
 template <typename T> 
-T Tstack<T> :: pop() {
+int Tstack<T> :: pop(T & data) {
 	if (top == NULL) {
-		fprintf(stderr, "Cannot pop from an empty stack.");
-		exit(1);
+		fprintf(stderr, "Try to pop from an empty stack.");
+		return 1;
 	}
 	
 	tnode<T> *temp;
 	temp = top;
 	top = top->next;
-	T ret = temp->data;
+	data = temp->data;
 
 	// delete temp
 	temp -> next = NULL;
@@ -118,7 +118,7 @@ T Tstack<T> :: pop() {
 
 	size--;
 
-	return ret;
+	return 0;
 }
 
 #endif	

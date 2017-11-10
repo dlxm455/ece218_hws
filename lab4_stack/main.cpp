@@ -138,7 +138,7 @@ void myCalculator (string str, bool bInt) {
 int main() {
     
     /* ===== Part 1 Using Template ===== */
-    /*
+    
 	Tstack<char> s1;
 	Tstack<int> s2;
 
@@ -149,10 +149,13 @@ int main() {
 	cout << "s1 before pop:" << endl;
 	s1.print(cout);
 	
-	char c = s1.pop();
-	cout << "poped char: " << c << endl;
-	cout << "s1 after pop:" << endl;
-	s1.print(cout);
+    char c;
+	int ret = s1.pop(c);
+    if (ret == 0) {
+        cout << "poped char: " << c << endl;
+        cout << "s1 after pop:" << endl;
+        s1.print(cout);
+    }
 
 	cout << "===== Stack of int (s2) =====" << endl;
 	s2.push(1);
@@ -160,13 +163,16 @@ int main() {
 	s2.push(3);
 	cout << "s2 before pop:" << endl;
 	s2.print(cout);
-
-	int i = s2.pop();
-	cout << "poped int: " << i << endl;
-	cout << "s2 after pop:" << endl;
-	s2.print(cout); 
     
-    */
+    
+    int i;
+    ret = s2.pop(i);
+    if (ret == 0) {
+        cout << "poped int: " << i << endl;
+        cout << "s2 after pop:" << endl;
+        s2.print(cout);
+    }
+    
 
 	/* ===== Part 2 Using Polymorphism ===== */
     
@@ -280,12 +286,14 @@ int main() {
     
     /* Using generic calulator */
     
+    /*
     string str = "123 34 + 23 - 2  *";
     myCalculator(str, true);
 
     
 	string fstr = "12.34 5.45 + 12.12 *";
 	myCalculator(fstr, false);
+    */
 
 
 }
