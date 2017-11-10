@@ -29,8 +29,4 @@ public:
 	
 
 
-
-
-
-
 #endif

@@ -23,8 +23,12 @@ void myCalculator (string str, bool bInt) {
     
     
     char *cptr;
+    char *fcptr;
     
     void *i1, *i2, *i3, *lnum;
+    
+    if (bInt) i3 = new int();
+    else i3 = new float();
     
     
     while (iss >> word) {
@@ -51,41 +55,49 @@ void myCalculator (string str, bool bInt) {
             m_pop1 = NULL;
             delete m_pop2;
             m_pop2 = NULL;
+            
+            if (word == "+") {
+                if (bInt) *(int*)i3 = *(int*)i1 + *(int*)i2;
+                else *(float*)i3 = *(float*)i1 + *(float*)i2;
+            } else if (word == "-") {
+                if (bInt) *(int*)i3 = *(int*)i1 - *(int*)i2;
+                else *(float*)i3 = *(float*)i1 - *(float*)i2;
+            } else if (word == "/") {
+                if (bInt) *(int*)i3 = *(int*)i1 / *(int*)i2;
+                else *(float*)i3 = *(float*)i1 / *(float*)i2;
+            } else { //(word == "*")
+                if (bInt) *(int*)i3 = (*(int*)i1) * (*(int*)i2);
+                else *(float*)i3 = (*(float*)i1) * (*(float*)i2);
+            }
+            
+            i1 = NULL;
+            i2 = NULL;
         }
         
-        else {
-            if (bInt)
-                *(int*)lnum = strtol(word.c_str(), &cptr, 10);
-            else
-                *(float*)lnum = strtof(word.c_str(), &cptr);
+        else { // number
+            if (bInt) {
+                long l = strtol((const char *)word.c_str(), &cptr, 10);
+                *(int*)i3 = (int)l;
+            }
             
-            if (*cptr != '\0') {
+            else {
+                float f = strtof(word.c_str(), &cptr);
+                *(float*)i3 = (float)f;
+            }
+            
+            if (cptr && *cptr != '\0') {
                 fprintf(stderr, "Invalid expression.\n");
                 exit(1);
             }
         }
         
-        if (word == "+") {
-            if (bInt) *(int*)i3 = *(int*)i1 + *(int*)i2;
-            else *(float*)i3 = *(float*)i1 + *(float*)i2;
-        } else if (word == "-") {
-            if (bInt) *(int*)i3 = *(int*)i1 - *(int*)i2;
-            else *(float*)i3 = *(float*)i1 - *(float*)i2;
-        } else if (word == "/") {
-            if (bInt) *(int*)i3 = *(int*)i1 / *(int*)i2;
-            else *(float*)i3 = *(float*)i1 / *(float*)i2;
-        } else if (word == "*") {
-            if (bInt) *(int*)i3 = (*(int*)i1) * (*(int*)i2);
-            else *(float*)i3 = (*(float*)i1) * (*(float*)i2);
-        } else {
 
-            i3 = lnum;
-        }
         
         if (bInt)
             m_push = new MInt(*(int*)(i3));
         else
             m_push = new MFloat(*(float*)(i3));
+        
         
         s4->push(m_push);
         
@@ -93,6 +105,12 @@ void myCalculator (string str, bool bInt) {
     
         
     } // end of while
+    
+    if (i3 != NULL) {
+        if (bInt) delete (int*)i3;
+        else delete (float*)i3;
+        i3 = NULL;
+    }
     
     m_pop1 = s4->pop();
     
@@ -180,9 +198,10 @@ int main() {
     
     */
     
-    /* ===== Part 3 Integer Calculator ===== */
+    /* ===== Part 3 Calculator ===== */
+    
+    /* Original Integer Calculator */
     /*
-
     Pstack * s4 = new Pstack();
     
     string str = "123 34 + 23 - 2  *";
@@ -255,10 +274,16 @@ int main() {
     m_pop1 = NULL;
     
     delete s4;
-     */
+    */
+    
+    
+    
+    /* Using generic calulator */
+    
     string str = "123 34 + 23 - 2  *";
     myCalculator(str, true);
 
+    
 	string fstr = "12.34 5.45 + 12.12 *";
 	myCalculator(fstr, false);
 
