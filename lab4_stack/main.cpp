@@ -259,4 +259,11 @@ int main() {
     string str = "123 34 + 23 - 2  *";
     myCalculator(str, true);
 
+	string fstr = "12.34 5.45 + 12.12 *";
+	myCalculator(fstr, false);
+
+
 }
+
+
+
