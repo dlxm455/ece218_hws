@@ -11,7 +11,7 @@ protected:
 
 public:
 	MObject() { value = NULL; };
-    virtual ~MObject() { if (value != NULL) value = NULL; cout << "destruct mobject" << endl;};
+    virtual ~MObject() { if (value != NULL) value = NULL; };
 
 	virtual void setValue(void * v) { value = v; };
 	virtual void * getValue() { return value; };

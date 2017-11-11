@@ -10,10 +10,11 @@ node :: node() {
 node :: ~node() {
 	if (data != NULL) {
 		next = NULL;
-		delete data;
+        
+		delete data; // MObject destructor is called
 		data = NULL;
 	}
-	cout << "destruct node" << endl;
+	//cout << "node destructs" << endl;
 }
 
 Pstack :: Pstack() {
@@ -26,11 +27,11 @@ Pstack :: ~Pstack() {
 	trav = top;
 	while (trav != NULL) {
 		top = top->next;
-		delete trav; // call the node destructor
+		delete trav; // node destructor is called
 		trav = top;
 	}
 		size = 0;
-    cout << "destruct stack" << endl;
+    //cout << "stack destructs" << endl;
 }
 
 ostream& Pstack :: print(ostream& out) {
@@ -47,6 +48,8 @@ ostream& Pstack :: print(ostream& out) {
 void Pstack :: push(MObject * mo) {
 	// create node
 	node * n = new node;
+    
+    // set new node
 	n->data = mo;
 	n->next = top;
 	
@@ -66,11 +69,17 @@ MObject * Pstack :: pop() {
 	top = top->next;
 	size--;
 
-	// unlink temp, delete temp, return temp data
+	// unlink temp from the next
 	temp->next = NULL;
+    
+    // set return MObject pointer
 	MObject * ret = temp->data;
+    
+    // unlink data which is needed for return
 	temp->data = NULL;
-	delete temp; // call node destructor
+    
+	delete temp; //  node destructor is called
+    
 	return ret;
 }
 

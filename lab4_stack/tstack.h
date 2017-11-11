@@ -8,7 +8,7 @@ using namespace std;
 template <typename T> 
 struct tnode {
 	T data;
-	tnode<T> * next; // do i need <> 
+	tnode<T> * next;
 	
 	tnode(); // default constructor
 	tnode(T d); // alternative constructor
@@ -46,7 +46,8 @@ tnode<T> :: tnode(T d) { // alternative destructor
 }
 
 template <typename T>
-tnode<T> :: ~tnode() { // TODO
+tnode<T> :: ~tnode() {
+    next = NULL;
 	
 }
 
@@ -63,15 +64,16 @@ template <typename T>
 Tstack<T>::~Tstack() {
 	tnode<T> *trav;
 	trav = top;
+    
+    // delete node one by one from top
 	while (trav != NULL) {
 		top = top->next;
         
-        // delete trav
-		trav->next = NULL; 
-		delete trav;
+		delete trav; // node destructor is called
         
 		trav = top;
 	}
+    
 	size = 0;
 }	
 
@@ -79,6 +81,8 @@ template <typename T>
 ostream& Tstack<T>::print(ostream& out) {
 	tnode<T> * trav;
 	trav = top;
+    
+    // print one by one from top
 	while (trav != NULL) {
 		out<< trav->data << ' ';
 		trav = trav->next;
@@ -102,21 +106,23 @@ void Tstack<T> :: push(T data) {
 
 template <typename T> 
 int Tstack<T> :: pop(T & data) {
+    
+    // check if stack is empty
 	if (top == NULL) {
 		fprintf(stderr, "Try to pop from an empty stack.");
 		return 1;
 	}
 	
+    // new node pointer to top
 	tnode<T> *temp;
 	temp = top;
-	top = top->next;
-	data = temp->data;
+    
+	top = top->next; // update top
+	data = temp->data; // data returns through parameter
 
-	// delete temp
-	temp -> next = NULL;
-	delete temp;
+	delete temp; // node destructor is called
 
-	size--;
+	size--; // update size
 
 	return 0;
 }
