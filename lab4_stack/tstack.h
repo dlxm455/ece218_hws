@@ -35,7 +35,7 @@ public:
 // Implement of tnode
 template <typename T>
 tnode<T> :: tnode() { 
-	data = NULL;
+	data = NULL; // ??? what to assign
 	next = NULL;
 }
 
