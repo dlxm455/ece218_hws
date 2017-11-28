@@ -124,3 +124,4 @@ ostream& Tqueue<T> :: print(ostream &out) {
 	out << endl;
 	return out;	
 }
+

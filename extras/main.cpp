@@ -88,7 +88,7 @@ int main() {
 	cout << "Please enter a line of text:" << endl;
 	char input[256] = "";
 	scanf("%s", input);
-	int i;
+	int i = 0;
 	while (input[i] != '\0') {
 		s1.push(input[i]);
 		i++;
@@ -141,13 +141,14 @@ int main() {
 
 	cout << "Print double link from head to tail." << endl;
 	dl.print(cout);
-	cout << "Pritn double link from tail to head." << endl;
+	cout << "Print double link from tail to head." << endl;
 	dl.printr(cout);
 
 
 
 	// 4.
 	cout << "===== Question 4 =====" << endl;
+/*
 	Dlink * dl2 = new Dlink();
 
 	// load data to dynamic array
@@ -205,7 +206,7 @@ int main() {
 		exit(1);
 	}
 
-// insertion sort and timing
+	// insertion sort and timing
 	start_c = clock();
 	insertionSort(string_arr, arr_size);
 	end_c = clock();
@@ -246,7 +247,7 @@ int main() {
 	delete[] string_arr;
 
 
-
+*/
 	// 5.
 	cout << "===== Question 5 =====" << endl;
 	HomeLights * hl = new HomeLights();
