@@ -271,7 +271,6 @@ int main() {
 
 	hl->setStateTo("living_room", true);
 	hl->setStateTo("bedroom1", true);
-
 	hl->print(cout);
 
 	delete hl;
@@ -299,7 +298,6 @@ int main() {
 
 	hlv->setStateTo("living_room", true);
 	hlv->setStateTo("bedroom1", true);
-
 	hlv->print(cout);
 
 	delete hlv;

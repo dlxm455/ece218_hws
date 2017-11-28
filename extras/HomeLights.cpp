@@ -231,8 +231,12 @@ int HomeLights_vec :: removeLight(string loc) {
 	for (i = del_end_ind + 1; i < count; i++) {
 		new_ptr[i + del_start_ind - del_end_ind - 1] = ptr_light[i];
 	}
+	
+	delete[] ptr_light;
+	ptr_light = new_ptr;
 
-	return del_end_ind - del_start_ind + 1;
+	count = count + del_start_ind - del_end_ind - 1; 	
+	return count;
 }
 
 bool HomeLights_vec :: getLightState(string loc) {
