@@ -11,6 +11,7 @@ struct tnode {
 	
 };
 */
+
 template <typename T>
 class Tqueue {
 private:
@@ -25,6 +26,7 @@ public:
 	void enqueue(T);
 	int dequeue(T&);
 	ostream& print(ostream&);
+    int getSize();
 
 };
 
@@ -48,6 +50,7 @@ tnode<T> :: ~tnode() {
 		delete data_ptr;
 		data_ptr = NULL;
 		next = NULL;
+ }
 }
 */
 
@@ -123,5 +126,10 @@ ostream& Tqueue<T> :: print(ostream &out) {
 	_print(back, out);
 	out << endl;
 	return out;	
+}
+
+template <typename T>
+int Tqueue<T> :: getSize() {
+    return size;
 }
 
