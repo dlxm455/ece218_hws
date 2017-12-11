@@ -1,6 +1,5 @@
 #include "bTree.h"
-//#include "tqueue.h" 
-#include <queue>
+#include "tqueue.h" 
 
 using namespace std;
 
@@ -9,22 +8,28 @@ bnode :: bnode() {
 	right = NULL;
 }
 
+bnode :: bnode(Mstring &s) {
+	data = s;
+	left = NULL;
+	right = NULL;
+}
+
 bnode :: ~bnode() { }
 
 bnode * BTree :: _addString(bnode *r, Mstring &s) {
-	bnode * nb = (bnode *) new bnode();
 	if (r == NULL) {
-		r = nb;
+		bnode * nb = new bnode(s);
+		count++;
+		return nb;
 	}
 	else {
 		if (s.compareToIgnoreCase(r->data) < 0) {
 			r->left = _addString(r->left, s);
-		} else {
+		} else if (s.compareToIgnoreCase(r->data) > 0) {
 			r->right = _addString(r->right, s);
 		}
+		return r;
 	}
-	count += 1;
-	return r;
 }
 
 void BTree :: _clearNodePostOrder(bnode *r) {
@@ -76,7 +81,7 @@ int BTree :: getCount() {
 }
 
 int BTree :: addString(Mstring &s) {
-	_addString(root, s);
+	root =_addString(root, s);
 	return count;
 }
 
@@ -101,15 +106,14 @@ ostream& BTree :: printPreOrder(ostream &out) {
 
 ostream& BTree :: printBreathFirst(ostream &out) {
 	if (root == NULL) return out;
-	queue<bnode *> q;
-	q.push(root);
-	bnode* temp_node;
-	while(!q.empty()) {
-		temp_node = q.front();
+	Tqueue<bnode *> q;
+	q.enqueue(root);
+	bnode* temp_node = new bnode();
+	while(q.getSize() != 0) {
+		q.dequeue(temp_node);
 		temp_node->data.print(out);
-		q.pop(); // dequeue
-		if (temp_node->left != NULL) q.push(temp_node->left); // enqueue
-		if (temp_node->right != NULL) q.push(temp_node->right); // enqueue
+		if (temp_node->left != NULL) q.enqueue(temp_node->left);
+		if (temp_node->right != NULL) q.enqueue(temp_node->right);
 	}
 
 	return out;

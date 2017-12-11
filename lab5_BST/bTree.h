@@ -12,6 +12,7 @@ struct bnode {
 	bnode * right;
 
 	bnode();
+	bnode(Mstring &s);
 	~bnode();
 };
 

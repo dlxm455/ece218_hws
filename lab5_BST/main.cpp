@@ -79,13 +79,25 @@ int main() {
 		fprintf(stderr, "not all strings are read in array.\n");
 		exit(1);
 	}
-	
+	cout << "arr: " << endl;
+	for (int i = 0; i < arr_size; i++) {
+		arr[i].print(cout);
+	}
+	cout << endl;
 	// 3. Create and populate a dynamic BTree
 	BTree * bt = new BTree();
 	double starttime = getCPUTime();
 	for (int i = 0; i < arr_size; i++) {
 		bt->addString(arr[i]);
 	}
+	cout << "tree inorder: " << endl;
+	bt->print(cout);
+	cout << endl;
+
+	cout << "tree breathfirst: " << endl;
+	bt->printBreathFirst(cout);
+	cout << endl;
+
 	double endtime = getCPUTime();
 	double elapsetime = endtime - starttime;
 	cout << "Time to create BTree from unsorted array: ";
