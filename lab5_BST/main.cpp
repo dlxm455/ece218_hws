@@ -9,7 +9,7 @@
 
 using namespace std;
 
-/*
+
 double getCPUTime(void) {
     struct timeval tv;
     struct rusage ru;
@@ -20,7 +20,7 @@ double getCPUTime(void) {
     t += (double)tv.tv_sec + (double)tv.tv_usec/1000000.0;
     return t;
 }
-*/
+
 
 int readFile(Mstring &filename, Mstring *arr, int size) {
 	ifstream fin;
@@ -79,7 +79,7 @@ int main() {
 		fprintf(stderr, "not all strings are read in array.\n");
 		exit(1);
 	}
-	/*
+	
 	// 3. Create and populate a dynamic BTree
 	BTree * bt = new BTree();
 	double starttime = getCPUTime();
@@ -116,7 +116,7 @@ int main() {
 
 	// calculate the idea height
 	// h >= log2(N+1)
-	int h_ideal = ceil(log(arr_size + 1) / log(2));
+	int h_ideal = (int)ceil(log(arr_size + 1) / log(2));
 	cout << "Ideal Height: " << h_ideal << endl; 
 
 	// 6. Compare the resulting times	
@@ -161,6 +161,6 @@ int main() {
 	delete bt;
 	delete bt2;
 	delete bt3;
-*/
+
 
 }

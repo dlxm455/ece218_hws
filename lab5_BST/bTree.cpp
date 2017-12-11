@@ -4,6 +4,13 @@
 
 using namespace std;
 
+bnode :: bnode() {
+	left = NULL;
+	right = NULL;
+}
+
+bnode :: ~bnode() { }
+
 bnode * BTree :: _addString(bnode *r, Mstring &s) {
 	bnode * nb = (bnode *) new bnode();
 	if (r == NULL) {

@@ -10,6 +10,9 @@ struct bnode {
 	Mstring data;
 	bnode * left;
 	bnode * right;
+
+	bnode();
+	~bnode();
 };
 
 class BTree {
