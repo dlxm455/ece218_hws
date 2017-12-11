@@ -28,6 +28,7 @@ bnode * BTree :: _addString(bnode *r, Mstring &s) {
 		} else if (s.compareToIgnoreCase(r->data) > 0) {
 			r->right = _addString(r->right, s);
 		}
+        // when adding same string, doing nothing
 		return r;
 	}
 }
@@ -101,7 +102,7 @@ void BTree :: _printPreOrder(bnode *r, ostream &out) {
 
 ostream& BTree :: printPreOrder(ostream &out) {
 	_printPreOrder(root, out);
-	return out;
+    return out;
 }
 
 ostream& BTree :: printBreathFirst(ostream &out) {
