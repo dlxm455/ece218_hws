@@ -73,8 +73,60 @@ void buildTreeFromSortedArr(BTree * bt, Mstring *arr, int start_ind, int end_ind
 	}
 }
 
-int main(int argc, char* argv[]) {
+// partition version 1
+int partition1(Mstring p[], int start_ind, int end_ind) {
+	int i = start_ind;
+	int j = end_ind - 1;
 
+	while (i < j) {
+		while(p[i].compareToIgnoreCase(p[end_ind]) < 0) {
+			i++;
+		}
+		while(j >= start_ind && p[j].compareToIgnoreCase(p[end_ind]) > 0) {
+			j--;
+		}
+		if (i < j && p[i].compareToIgnoreCase(p[j]) != 0) { // swap
+			Mstring temp;
+			temp = p[i];
+			p[i] = p[j];
+			p[j] = temp;
+		}
+	}
+
+	// place pivot
+	if (i != end_ind) {
+		Mstring temp;
+		temp = p[i];
+		p[i] = p[end_ind];
+		p[end_ind] = temp;
+	}
+
+	return i;
+}
+
+// partition version 2
+int partition2(Mstring p[], int start_ind, int end_ind) {
+	int i = start_ind;
+
+	return i;
+}
+
+// my quicksort
+void myQuicksort(Mstring p[], int start_ind, int end_ind,
+								 int (*partition_func)(Mstring *, int, int)) {
+	if (start_ind >  end_ind) {
+		int p_ind = partition_func(p, start_ind, end_ind);
+		myQuicksort(p, start_ind, p_ind - 1, partition_func);
+		myQuicksort(p, p_ind + 1, end_ind, partition_func);
+	}
+}
+
+
+int main(int argc, char* argv[]) {
+	int read_num;
+	double starttime, endtime, elapsetime;
+	int i;
+	
 	bool testflag = false;
 	if (argc == 0) {
 		fprintf(stderr, "please provide data file.\n");
@@ -96,113 +148,75 @@ int main(int argc, char* argv[]) {
 	// 2. Call function to fill in the arr from a file
 	Mstring filename_ms;
 	filename_ms.setString(argv[1], strlen(argv[1]));
-	int read_num = readFile(filename_ms, arr, arr_size);
+	read_num = readFile(filename_ms, arr, arr_size);
 	if (read_num != arr_size) {
-		fprintf(stderr, "not all strings are read in array.\n");
+		fprintf(stderr, "not all strings are read in array\n");
 		exit(1);
 	}
-
-
-	// 3. Create and populate a dynamic BTree
-	BTree * bt = new BTree();
-	double starttime = getCPUTime();
-	for (int i = 0; i < arr_size; i++) {
-		bt->addString(arr[i]);
-	}
-
-	if (testflag) {
-		cout << "tree inorder: " << endl;
-		bt->print(cout);
-		cout << endl;
-	}
-
-	if (testflag) {
-		cout << "tree breathfirst: " << endl;
-		bt->printBreathFirst(cout);
-		cout << endl;
-	}
-
-	double endtime = getCPUTime();
-	double elapsetime = endtime - starttime;
-	cout << "Time to create BTree from unsorted array: ";
-	cout << elapsetime << " sec" << endl; 
-	int h = bt->getHeight();
-	cout << "Height of BTree built from unsorted array: " << h << endl;
-
-	// 4. Sort the array of Mstring
-	double starttime_s = getCPUTime();
+	
+	
+	// 3. Sort the array with selection sort
+	starttime = getCPUTime();
 	selectionSort(arr, arr_size);
-	double endtime_s = getCPUTime();
-	double elapsetime_s = endtime_s - starttime_s;
-	cout << "Time to sort array: " << elapsetime_s << " sec" << endl;
+	endtime = getCPUTime();
+	elapsetime = endtime - starttime;
+	cout << "Selection sort time: " << elapsetime << " sec" << endl;
 
-
-	// 5. Create and populate a second dynamic BTree
-	BTree *bt2 = new BTree();
-	double starttime_tree_s = getCPUTime();
-	buildTreeFromSortedArr(bt2, arr, 0, arr_size - 1);
-	double endtime_tree_s = getCPUTime();
-	double elapsetime_tree_s = endtime_tree_s - starttime_tree_s;
-	cout << "Time to create BTree from sorted array: ";
-	cout << elapsetime_tree_s << " sec" << endl; 
-	int h_s = bt2->getHeight();
-	cout << "Height of BTree built from sorted array: " << h_s << endl;
-
-	// calculate the idea height
-	// h >= log2(N+1)
-	int h_ideal = (int)ceil(log(arr_size + 1) / log(2));
-	cout << "Ideal Height: " << h_ideal << endl; 
-
-
-
-
-	// Extra Credit
-	// write tree to file with pre-order
-	fstream fio;
-	fio.open("preOrderFile.txt", fstream::out | fstream::trunc | fstream :: in);
-	if (!fio.is_open()) {
+	// 4. Save the sorted data to a file
+	ofstream fout;
+	fout.open("SelectionSortOutput.txt");
+	if (!fout.is_open()) {
 		fprintf(stderr, "open file failed.\n");
 		exit(1);
 	}
-	bt2->printPreOrder(fio);
 
-	// read file back to arr;
-	fio.seekg (0, fio.beg);
-	char str[128]; 
-	int read_num2 = 0;
-	while (fio.getline(str, 128) && read_num2 < arr_size) {
-		arr[read_num2].setString(str, strlen(str));
-		read_num2++;
+	for (i = 0; i < arr_size; i++) {
+		arr[i].print(fout);
 	}
 
-	fio.close();
+	fout.close();
 
-	if (read_num2 != arr_size) {
-		fprintf(stderr, "not all strings are read in array.\n");
+	// 5. Reload the data
+	read_num = readFile(filename_ms, arr, arr_size);
+	if (read_num != arr_size) {
+		fprintf(stderr, " not all strings are read in array\n");
 		exit(1);
 	}
 
-	// create and populate a new BTree from the arr
-	BTree *bt3 = new BTree();
-	double starttime_newtree = getCPUTime();
-	for (int i = 0; i < arr_size; i++) {
-		bt3->addString(arr[i]);
-	}
-	double endtime_newtree = getCPUTime();
-	double elapsetime_newtree = endtime_newtree - starttime_newtree;
-	cout << "Time to create BTree from preorder rebuild array: ";
-	cout << elapsetime_newtree << " sec" << endl; 
-	int h_n = bt3->getHeight();
-	cout << "Height of BTree built from preorder rebuild array: ";
-	cout << h_n << endl;
+	// 6. Sort the array with quicksort
+	starttime = getCPUTime();
+	myQuicksort(arr, 0, arr_size - 1, partition1);
+	endtime = getCPUTime();
+	elapsetime = endtime - starttime;
+	cout << "Quicksort time: " << elapsetime << " sec" << endl;
 
-	// delete Mstring array
+	// 7. Save the sorted data to a file
+	fout.open("QuickSortOutput.txt");
+	if (!fout.is_open()) {
+		fprintf(stderr, "open file failed.\n");
+		exit(1);
+	}
+
+	for (i = 0; i < arr_size; i++) {
+		arr[i].print(fout);
+	}
+
+	fout.close();
+
+	// 9c. Create and populate a dynamic BTree
+	BTree * bt = new BTree();
+
+	starttime = getCPUTime();
+	for (i = 0; i < arr_size; i++) {
+		bt->addString(arr[i]);
+	}
+	endtime = getCPUTime();
+	elapsetime = endtime - starttime;
+	cout << "Time to create BTree from unsorted array: ";
+	cout << elapsetime << " sec" << endl; 
+
 	delete[] arr;
-	
-	// delete BTrees
 	delete bt;
-	delete bt2;
-	delete bt3;
 
 }
 
